@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import cat1 from '/src/assets/cursor-cats/cat_flying-removebg-preview.png'
-import cat2 from '/src/assets/cursor-cats/обои_на_айфон-removebg-preview.png'
-import cat3 from '/src/assets/cursor-cats/Laptop_wallpaper-removebg-preview.png'
+import cat1 from '../../../assets/cursor-cats/cat_flying-removebg-preview.png'
+import cat2 from '../../../assets/cursor-cats/обои_на_айфон-removebg-preview.png'
+import cat3 from '../../../assets/cursor-cats/Laptop_wallpaper-removebg-preview.png'
 import { useCursorTrail } from '../../../animations/useCursorTrail'
 
 const trailImages = [cat1, cat2, cat3]

@@ -1,5 +1,5 @@
 import DesignStarterpacks from '../../../core/data/starterpack_design_data';
-import StarterPack from '/src/assets/title-design/design stater pack.svg';
+import StarterPack from '../../../assets/title-design/design stater pack.svg';
 import Reveal from "../../../components/reveal";
 
 function ToolsSection() {
@@ -12,10 +12,12 @@ function ToolsSection() {
             <section className="tools-grid">
                 {tools.map((tool, index) => (
                     <Reveal key={tool.tool_name} delay={index * 80}>
-                        <div className="tool-card">
-                            <img src={tool.tool_image} alt={tool.tool_name} />
-                            <span className="tool-tooltip">{tool.tool_name}</span>
-                        </div>
+                        <a href={tool.tool_url} target="_blank" rel="noopener noreferrer" className="tool-card-link">
+                            <div className="tool-card">
+                                <img src={tool.tool_image} alt={tool.tool_name} />
+                                <span className="tool-tooltip">{tool.tool_name}</span>
+                            </div>
+                        </a>
                     </Reveal>
                 ))}
             </section>

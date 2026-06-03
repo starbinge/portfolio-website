@@ -1,0 +1,42 @@
+.section-label-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.section-label {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: 0.6rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--bold-border-color, #000);
+    font-family: var(--pixel-font, monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-secondary-color, #676767);
+    flex-wrap: wrap;
+}
+
+.section-label-number {
+    color: var(--primary-color, #D91A1A);
+    font-weight: bold;
+}
+
+.section-label-title {
+    color: var(--text-primary-color, #000);
+    font-weight: bold;
+}
+
+.section-label-caption {
+    margin-left: auto;
+    font-style: italic;
+    color: var(--text-secondary-color, #676767);
+}
+
+@media (max-width: 600px) {
+    .section-label-caption {
+        margin-left: 0;
+        width: 100%;
+    }
+}

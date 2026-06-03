@@ -4,6 +4,7 @@ import TextArea from "../../../components/text_area"
 import Toast from "../../../components/toast"
 import type { ToastType } from "../../../components/toast"
 import Reveal from "../../../components/reveal"
+import SectionLabel from "../../../components/section_label"
 import { sendContactEmail } from "./services/email_service"
 
 function ContactMeSection() {
@@ -41,7 +42,8 @@ function ContactMeSection() {
     }
 
     return (
-        <section className="contact-me-section">
+        <section className="contact-me-section" id="contact-section">
+            <SectionLabel number="03" title="Contact Me" caption="Send a letter" />
             <Reveal>
                 <h1>Contact Me</h1>
             </Reveal>

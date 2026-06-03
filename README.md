@@ -1,74 +1,137 @@
-# React + TypeScript + Vite
+# Portfolio App — Editorial Design Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A single-page portfolio website built with React 19, TypeScript, and Vite. Designed as an editorial magazine — sections have numbered titles, pull quotes, drop caps, and scroll-triggered fade-in animations.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19** + **TypeScript** (with `verbatimModuleSyntax`)
+- **Vite 8** (fast build, code-splitting via `React.lazy`)
+- **React Router v7** (browser routing, scroll-to-top on navigation)
+- **EmailJS** (contact form, no backend required)
+- **ESLint** (flat config, type-aware rules)
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── animations/           # Custom hooks (cursor trail)
+├── assets/               # Images, SVGs, icons
+├── components/           # Shared UI components
+│   ├── navbar.tsx        # Top nav with route navigation
+│   ├── reveal.tsx        # Scroll-triggered fade/slide animation
+│   ├── toast.tsx         # Auto-dismiss notification popup
+│   ├── section_label.tsx # Numbered editorial section header
+│   ├── scroll_to_top.tsx # Reset scroll position on route change
+│   ├── school_container.tsx / job_container.tsx
+│   └── short_text_input.tsx / text_area.tsx
+├── core/
+│   ├── constants/        # Route definitions
+│   ├── data/             # Project, hobby, and starterpack data
+│   └── types/            # TypeScript interfaces
+├── layouts/              # Main layout wrapper
+├── pages/
+│   ├── main_page/        # Homepage (hero, bio, cup-of-tea, contact)
+│   ├── list_page/        # Project listing (directed works, hobby, tools)
+│   ├── detail_page/      # Individual project detail view
+│   └── not_found_page/   # Editorial 404 page
+└── routes/               # Router configuration (lazy-loaded)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 1. Install dependencies
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
-# portfolio-website
+
+### 2. Set up EmailJS (contact form)
+
+Copy the example env file and fill in your credentials:
+
+```bash
+cp .env.example .env
+```
+
+Get your credentials from [EmailJS](https://www.emailjs.com/):
+- **Service ID** — created in EmailJS dashboard
+- **Template ID** — created in EmailJS "Email Templates"
+- **Public Key** — found in Account → API Keys
+
+The email template must use these variable names: `{{name}}`, `{{email}}`, `{{message}}`.
+
+### 3. Start development server
+
+```bash
+npm run dev
+```
+
+### 4. Build for production
+
+```bash
+npm run build
+```
+
+Output goes to `dist/`.
+
+## Available Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Type-check (`tsc -b`) + production build |
+| `npm run lint` | Run ESLint across the project |
+| `npm run preview` | Preview the production build locally |
+
+## How to Extend
+
+### Add a new project
+
+Edit `src/core/data/design_data_list.ts`:
+
+```ts
+export const projects: Project[] = [
+  {
+    id: "my-project",
+    typeId: "1",
+    thumbnail: myThumbnail,               // import the image
+    title: "My Project",
+    brief: "Short description for the card.",
+    roles: [{ title: "UI/UX Design" }, { title: "Development" }],
+    links: {
+      behance: {
+        url: "https://behance.net/...",
+        label: "See The Details",
+      },
+    },
+    // detail page content...
+  },
+];
+```
+
+### Add a reusable animation
+
+Wrap any element with `<Reveal>` — it fades in and slides up when scrolled into view:
+
+```tsx
+<Reveal delay={200}>
+  <p>This appears with a 200ms delay</p>
+</Reveal>
+```
+
+### Add a new route
+
+1. Define the path in `src/core/constants/route_const.ts`
+2. Lazy-import the page component in `src/routes/routes.tsx`
+3. Add the route entry to the router
+
+## Key Features
+
+- **Editorial design** — numbered sections, drop caps, pull quotes, section labels with "§"
+- **Scroll animations** — `<Reveal>` component using IntersectionObserver
+- **EmailJS contact form** — idle/sending/success/error states with validation
+- **Toast notifications** — auto-dismissing popup for form feedback
+- **Cursor trail** — animated images follow the cursor on the hero section
+- **Code splitting** — each page is a separate lazy-loaded chunk
+- **Scroll-to-top** — automatic on every route change
+- **Responsive tool grid** — flexbox fallback for odd-numbered items

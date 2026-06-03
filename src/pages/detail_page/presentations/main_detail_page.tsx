@@ -1,12 +1,15 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { projects, type Project } from "../../../core/data/design_data_list";
+import type { Project } from "../../../core/types/project_types";
+import { getProjectsByType } from "../../../core/data/data_registry";
 import Reveal from "../../../components/reveal";
+import SectionLabel from "../../../components/section_label";
 
 function MainDetailPage() {
     const navigate = useNavigate();
     const { typeId, projectId } = useParams<{ typeId: string; projectId: string }>();
 
-    const rawData: Project[] = typeId === "1" ? projects : [];
+    const currentTypeId = typeId ?? "1";
+    const rawData: Project[] = getProjectsByType(currentTypeId);
     const finalData: Project | undefined = rawData.find(data => data.id === projectId);
 
     if (!finalData) {
@@ -19,11 +22,11 @@ function MainDetailPage() {
 
     return (
         <div className="detail-page">
-            <Reveal>
-                <button className="primary-button go-back-button" onClick={() => navigate(-1)}>
-                    Go Back
-                </button>
-            </Reveal>
+            <button className="breadcrumb-go-back" onClick={() => navigate(-1)} aria-label="Go back">
+                Archive / Back
+            </button>
+
+            <SectionLabel number="§ 01" title={finalData.title} caption="Case Study" />
 
             <section className="detail-project-section">
                 <Reveal delay={100}>
